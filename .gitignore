@@ -1,0 +1,5 @@
+.vercel
+
+# Local DB dumps (never commit)
+/orders_backup.sql
+/orders_data_only.sql

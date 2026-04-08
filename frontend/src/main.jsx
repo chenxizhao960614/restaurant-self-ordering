@@ -10,7 +10,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/order" element={<OrderPage />} />
-        <Route path="/staff" element={<StaffPage />} />
+        <Route path="/orders" element={<StaffPage />} />
+        <Route path="/staff" element={<Navigate to="/orders" replace />} />
         <Route path="*" element={<Navigate to="/order?type=togo" replace />} />
       </Routes>
     </BrowserRouter>

@@ -61,7 +61,10 @@ function parseItemsField(rawValue) {
             const unitPrice = Number(item.unitPrice || 0);
             if (!name || !Number.isInteger(quantity) || quantity <= 0) return null;
             if (!Number.isFinite(unitPrice) || unitPrice < 0) return null;
-            return { name, quantity, unitPrice };
+            const out = { name, quantity, unitPrice };
+            const gi = item.guestIndex != null ? Number(item.guestIndex) : null;
+            if (Number.isInteger(gi) && gi >= 1 && gi <= 4) out.guestIndex = gi;
+            return out;
           })
           .filter(Boolean);
         return { guestTag, orderNote, items };
@@ -93,7 +96,10 @@ function parseItemsField(rawValue) {
         const unitPrice = Number(item.unitPrice || 0);
         if (!name || !Number.isInteger(quantity) || quantity <= 0) return null;
         if (!Number.isFinite(unitPrice) || unitPrice < 0) return null;
-        return { name, quantity, unitPrice };
+        const out = { name, quantity, unitPrice };
+        const gi = item.guestIndex != null ? Number(item.guestIndex) : null;
+        if (Number.isInteger(gi) && gi >= 1 && gi <= 4) out.guestIndex = gi;
+        return out;
       })
       .filter(Boolean);
     return { guestTag, orderNote, items };
@@ -102,11 +108,13 @@ function parseItemsField(rawValue) {
   return fallback;
 }
 
-function normalizeOrderItems(items) {
+function normalizeOrderItems(items, orderType) {
   if (!Array.isArray(items)) return [];
+  const isTableBar = orderType === "table" || orderType === "bar";
   return items
     .map((item) => {
       if (typeof item === "string") {
+        if (isTableBar) return null;
         const name = item.trim();
         if (!name) return null;
         return { name, quantity: 1, unitPrice: 0 };
@@ -118,7 +126,15 @@ function normalizeOrderItems(items) {
       if (!name) return null;
       if (!Number.isInteger(quantity) || quantity <= 0 || quantity > 99) return null;
       if (!Number.isFinite(unitPrice) || unitPrice < 0 || unitPrice > 9999) return null;
-      return { name, quantity, unitPrice: Number(unitPrice.toFixed(2)) };
+      const base = { name, quantity, unitPrice: Number(unitPrice.toFixed(2)) };
+      const gi = item.guestIndex != null ? Number(item.guestIndex) : null;
+      if (isTableBar) {
+        if (!Number.isInteger(gi) || gi < 1 || gi > 4) return null;
+        base.guestIndex = gi;
+      } else if (gi != null) {
+        return null;
+      }
+      return base;
     })
     .filter(Boolean);
 }
@@ -153,7 +169,10 @@ function locationLabel(type, id, customerName) {
 
 async function sendOrderNotification(order) {
   const itemsText = order.items
-    .map((item) => `- ${item.name} x${item.quantity}`)
+    .map((item) => {
+      const g = item.guestIndex ? `[G${item.guestIndex}] ` : "";
+      return `- ${g}${item.name} x${item.quantity}`;
+    })
     .join("\n");
   const total = order.items.reduce(
     (sum, item) => sum + Number(item.unitPrice || 0) * item.quantity,
@@ -231,9 +250,13 @@ app.post("/api/orders", async (req, res) => {
       return res.status(400).json({ error: "At least one menu item is required." });
     }
 
-    const normalizedItems = normalizeOrderItems(items);
+    const normalizedItems = normalizeOrderItems(items, type);
     if (normalizedItems.length === 0) {
-      return res.status(400).json({ error: "At least one valid menu item is required." });
+      const hint =
+        type === "table" || type === "bar"
+          ? " For table/bar, each line needs guestIndex 1–4."
+          : "";
+      return res.status(400).json({ error: `At least one valid menu item is required.${hint}` });
     }
 
     const safeCustomerName = String(customerName || "").trim();
@@ -291,7 +314,7 @@ app.get("/api/orders", async (_req, res) => {
       `
       SELECT id, type, location_id AS locationId, customer_name AS customerName, items_json AS itemsJson, status, created_at AS createdAt
       FROM orders
-      ORDER BY created_at ASC
+      ORDER BY created_at DESC, id DESC
       `
     );
 
