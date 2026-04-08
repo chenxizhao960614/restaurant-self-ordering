@@ -1,0 +1,12 @@
+table-1.png: http://10.0.0.212:5173/order?type=table&id=1
+table-2.png: http://10.0.0.212:5173/order?type=table&id=2
+table-3.png: http://10.0.0.212:5173/order?type=table&id=3
+table-4.png: http://10.0.0.212:5173/order?type=table&id=4
+table-5.png: http://10.0.0.212:5173/order?type=table&id=5
+table-6.png: http://10.0.0.212:5173/order?type=table&id=6
+table-7.png: http://10.0.0.212:5173/order?type=table&id=7
+bar-1.png: http://10.0.0.212:5173/order?type=bar&id=1
+bar-2.png: http://10.0.0.212:5173/order?type=bar&id=2
+bar-3.png: http://10.0.0.212:5173/order?type=bar&id=3
+bar-4.png: http://10.0.0.212:5173/order?type=bar&id=4
+togo.png: http://10.0.0.212:5173/order?type=togo

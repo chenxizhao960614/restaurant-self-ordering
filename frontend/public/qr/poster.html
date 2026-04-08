@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Poster</title>
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; color: #111; }
+    .page { padding: 16px; }
+    h1 { margin: 0 0 8px; }
+    .muted { margin: 0 0 16px; color: #555; font-size: 13px; }
+    .section { margin-bottom: 14px; break-inside: avoid; }
+    .section h2 { margin: 0 0 8px; font-size: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .card { border: 1px solid #ddd; border-radius: 6px; padding: 8px; text-align: center; }
+    .card img { width: 100%; height: auto; }
+    .label { margin-top: 6px; font-weight: 700; font-size: 14px; }
+    .url { margin-top: 4px; color: #555; font-size: 10px; word-break: break-all; }
+    @media print {
+      @page { size: A4 portrait; margin: 10mm; }
+      .page { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Restaurant Ordering QR Codes</h1>
+    <p class="muted">Base URL: http://10.0.0.212:5173</p>
+    
+    <section class="section">
+      <h2>Tables (1-7)</h2>
+      <div class="grid">
+        
+          <div class="card">
+            <img src="./table-1.png" alt="Table 1 QR" />
+            <div class="label">Table 1</div>
+            <div class="url">http://10.0.0.212:5173/order?type=table&id=1</div>
+          </div>
+        
+          <div class="card">
+            <img src="./table-2.png" alt="Table 2 QR" />
+            <div class="label">Table 2</div>
+            <div class="url">http://10.0.0.212:5173/order?type=table&id=2</div>
+          </div>
+        
+          <div class="card">
+            <img src="./table-3.png" alt="Table 3 QR" />
+            <div class="label">Table 3</div>
+            <div class="url">http://10.0.0.212:5173/order?type=table&id=3</div>
+          </div>
+        
+          <div class="card">
+            <img src="./table-4.png" alt="Table 4 QR" />
+            <div class="label">Table 4</div>
+            <div class="url">http://10.0.0.212:5173/order?type=table&id=4</div>
+          </div>
+        
+          <div class="card">
+            <img src="./table-5.png" alt="Table 5 QR" />
+            <div class="label">Table 5</div>
+            <div class="url">http://10.0.0.212:5173/order?type=table&id=5</div>
+          </div>
+        
+          <div class="card">
+            <img src="./table-6.png" alt="Table 6 QR" />
+            <div class="label">Table 6</div>
+            <div class="url">http://10.0.0.212:5173/order?type=table&id=6</div>
+          </div>
+        
+          <div class="card">
+            <img src="./table-7.png" alt="Table 7 QR" />
+            <div class="label">Table 7</div>
+            <div class="url">http://10.0.0.212:5173/order?type=table&id=7</div>
+          </div>
+        
+      </div>
+    </section>
+  
+    
+    <section class="section">
+      <h2>Bar Seats (1-4)</h2>
+      <div class="grid">
+        
+          <div class="card">
+            <img src="./bar-1.png" alt="Bar 1 QR" />
+            <div class="label">Bar 1</div>
+            <div class="url">http://10.0.0.212:5173/order?type=bar&id=1</div>
+          </div>
+        
+          <div class="card">
+            <img src="./bar-2.png" alt="Bar 2 QR" />
+            <div class="label">Bar 2</div>
+            <div class="url">http://10.0.0.212:5173/order?type=bar&id=2</div>
+          </div>
+        
+          <div class="card">
+            <img src="./bar-3.png" alt="Bar 3 QR" />
+            <div class="label">Bar 3</div>
+            <div class="url">http://10.0.0.212:5173/order?type=bar&id=3</div>
+          </div>
+        
+          <div class="card">
+            <img src="./bar-4.png" alt="Bar 4 QR" />
+            <div class="label">Bar 4</div>
+            <div class="url">http://10.0.0.212:5173/order?type=bar&id=4</div>
+          </div>
+        
+      </div>
+    </section>
+  
+    
+    <section class="section">
+      <h2>To-Go</h2>
+      <div class="grid">
+        
+          <div class="card">
+            <img src="./togo.png" alt="To-Go QR" />
+            <div class="label">To-Go</div>
+            <div class="url">http://10.0.0.212:5173/order?type=togo</div>
+          </div>
+        
+      </div>
+    </section>
+  
+  </main>
+</body>
+</html>
