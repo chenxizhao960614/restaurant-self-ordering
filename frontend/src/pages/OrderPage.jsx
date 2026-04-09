@@ -48,6 +48,7 @@ export default function OrderPage() {
   const [message, setMessage] = useState("");
   const [menuSearch, setMenuSearch] = useState("");
   const [togoBagQty, setTogoBagQty] = useState(0);
+  const [openDishInfoKey, setOpenDishInfoKey] = useState(null);
 
   const isValidLocation = useMemo(() => {
     if (type === "table") {
@@ -82,7 +83,10 @@ export default function OrderPage() {
               items: (c.items || []).map((i) => ({
                 id: i.id,
                 name: i.name,
-                price: Number(i.price)
+                price: Number(i.price),
+                ...(i.info || i.description
+                  ? { info: String(i.info || i.description || "").trim() }
+                  : {})
               }))
             }))
           );
@@ -98,6 +102,18 @@ export default function OrderPage() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!openDishInfoKey) return undefined;
+    function onDocMouseDown(e) {
+      const el = e.target;
+      if (el instanceof Element && !el.closest("[data-dish-info-root]")) {
+        setOpenDishInfoKey(null);
+      }
+    }
+    document.addEventListener("mousedown", onDocMouseDown);
+    return () => document.removeEventListener("mousedown", onDocMouseDown);
+  }, [openDishInfoKey]);
 
   const grandFromGuests = useMemo(() => {
     return GUEST_IDS.reduce(
@@ -119,7 +135,10 @@ export default function OrderPage() {
     return menuCategories
       .map((cat) => ({
         ...cat,
-        items: (cat.items || []).filter((i) => i.name.toLowerCase().includes(q))
+        items: (cat.items || []).filter((i) => {
+          const hay = `${i.name} ${i.info || ""}`.toLowerCase();
+          return hay.includes(q);
+        })
       }))
       .filter((cat) => cat.items.length > 0);
   }, [menuCategories, menuSearch]);
@@ -253,11 +272,38 @@ export default function OrderPage() {
           {(category.items || []).map((item) => {
             const price = Number(item.price);
             const st = getState(item.name, price);
+            const infoKey = `${category.name}::${item.name}`;
+            const hasInfo = Boolean(item.info && String(item.info).trim());
             return (
               <div key={item.id || item.name} className="menu-item-card menu-item-compact">
                 <div className="menu-item-body menu-item-compact-body">
                   <div className="menu-item-text menu-item-compact-text">
-                    <span className="dish-name">{item.name}</span>
+                    <div className="dish-name-cell" data-dish-info-root>
+                      <span className="dish-name">{item.name}</span>
+                      {hasInfo ? (
+                        <>
+                          <button
+                            type="button"
+                            className="dish-info-btn"
+                            aria-label={`About ${item.name}`}
+                            aria-expanded={openDishInfoKey === infoKey}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setOpenDishInfoKey((prev) => (prev === infoKey ? null : infoKey));
+                            }}
+                          >
+                            ?
+                          </button>
+                          {openDishInfoKey === infoKey ? (
+                            <div className="dish-info-pop" role="tooltip">
+                              {item.info}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : null}
+                    </div>
                     <span className="dish-price">${price.toFixed(2)}</span>
                   </div>
                   <div className="qty-controls qty-controls-compact qty-stepper">

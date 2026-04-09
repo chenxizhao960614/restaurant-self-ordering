@@ -693,9 +693,68 @@ ul {
   min-width: 0;
 }
 
-.menu-item-compact-text .dish-name {
+.dish-name-cell {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
   flex: 1;
   min-width: 0;
+}
+
+.menu-item-compact-text .dish-name {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.dish-info-btn {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  border: 1px solid #94a3b8;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dish-info-btn:hover,
+.dish-info-btn:focus-visible {
+  background: #e2e8f0;
+  border-color: #64748b;
+  color: #1e293b;
+  outline: none;
+}
+
+.dish-info-btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.45);
+}
+
+.dish-info-pop {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 8px);
+  z-index: 40;
+  max-width: min(280px, 72vw);
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #1e293b;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.14);
 }
 
 .menu-item-compact-text .dish-price {
