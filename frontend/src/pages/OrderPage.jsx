@@ -260,14 +260,37 @@ export default function OrderPage() {
                     <span className="dish-name">{item.name}</span>
                     <span className="dish-price">${price.toFixed(2)}</span>
                   </div>
-                  <div className="qty-controls qty-controls-compact">
-                    <button type="button" className="qty-btn" onClick={() => changeHandler(item.name, price, -1)} aria-label="Decrease">
-                      −
-                    </button>
-                    <span className="qty-value">{st.quantity}</span>
-                    <button type="button" className="qty-btn qty-btn-plus" onClick={() => changeHandler(item.name, price, 1)} aria-label="Increase">
-                      +
-                    </button>
+                  <div className="qty-controls qty-controls-compact qty-stepper">
+                    {st.quantity > 0 ? (
+                      <>
+                        <button
+                          type="button"
+                          className="qty-btn qty-btn-sm"
+                          onClick={() => changeHandler(item.name, price, -1)}
+                          aria-label="Decrease"
+                        >
+                          −
+                        </button>
+                        <span className="qty-value qty-value-sm">{st.quantity}</span>
+                        <button
+                          type="button"
+                          className="qty-btn qty-btn-sm qty-btn-plus"
+                          onClick={() => changeHandler(item.name, price, 1)}
+                          aria-label="Increase"
+                        >
+                          +
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        type="button"
+                        className="qty-btn qty-btn-sm qty-btn-plus qty-btn-add-only"
+                        onClick={() => changeHandler(item.name, price, 1)}
+                        aria-label="Add"
+                      >
+                        +
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -331,10 +354,11 @@ export default function OrderPage() {
                     type="button"
                     role="tab"
                     aria-selected={active}
+                    aria-label={`Guest ${g}`}
                     className={`guest-tab ${active ? "guest-tab-active" : ""}`}
                     onClick={() => setActiveGuest(g)}
                   >
-                    <span className="guest-tab-label">Guest {g}</span>
+                    <span className="guest-tab-label">G{g}</span>
                     {count > 0 && <span className="guest-tab-badge">{count}</span>}
                   </button>
                 );
@@ -430,7 +454,6 @@ export default function OrderPage() {
               <div className="checkout-label">Total</div>
               <div className="checkout-amount">${displayTotal.toFixed(2)}</div>
               <div className="checkout-before-tax">Before tax</div>
-              <div className="checkout-sub muted">{displayCount} items</div>
             </div>
             <div className="checkout-actions-block">
               {isTogo && (
@@ -439,24 +462,37 @@ export default function OrderPage() {
                     <span className="checkout-togo-bag-name">{TOGO_BAG_NAME}</span>
                     <span className="checkout-togo-bag-price">${TOGO_BAG_PRICE.toFixed(2)} ea</span>
                   </div>
-                  <div className="qty-controls qty-controls-compact checkout-togo-bag-qty">
-                    <button
-                      type="button"
-                      className="qty-btn"
-                      onClick={() => setTogoBagQty((q) => Math.max(0, q - 1))}
-                      aria-label="Fewer bags"
-                    >
-                      −
-                    </button>
-                    <span className="qty-value">{togoBagQty}</span>
-                    <button
-                      type="button"
-                      className="qty-btn qty-btn-plus"
-                      onClick={() => setTogoBagQty((q) => Math.min(99, q + 1))}
-                      aria-label="More bags"
-                    >
-                      +
-                    </button>
+                  <div className="qty-controls qty-controls-compact checkout-togo-bag-qty qty-stepper">
+                    {togoBagQty > 0 ? (
+                      <>
+                        <button
+                          type="button"
+                          className="qty-btn qty-btn-sm"
+                          onClick={() => setTogoBagQty((q) => Math.max(0, q - 1))}
+                          aria-label="Fewer bags"
+                        >
+                          −
+                        </button>
+                        <span className="qty-value qty-value-sm">{togoBagQty}</span>
+                        <button
+                          type="button"
+                          className="qty-btn qty-btn-sm qty-btn-plus"
+                          onClick={() => setTogoBagQty((q) => Math.min(99, q + 1))}
+                          aria-label="More bags"
+                        >
+                          +
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        type="button"
+                        className="qty-btn qty-btn-sm qty-btn-plus qty-btn-add-only"
+                        onClick={() => setTogoBagQty(1)}
+                        aria-label="Add bag"
+                      >
+                        +
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
