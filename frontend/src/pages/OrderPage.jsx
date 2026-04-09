@@ -319,6 +319,9 @@ export default function OrderPage() {
     ? grandFromGuests.total
     : togoStats.total + togoBagQty * TOGO_BAG_PRICE;
 
+  const messageIsSuccess =
+    message && /thank you|sent to the kitchen|successfully/i.test(message);
+
   return (
     <div className="container order-page">
       <header className="order-header">
@@ -327,6 +330,15 @@ export default function OrderPage() {
           <h1 className="order-title">{getLocationLabel(type, id)}</h1>
         </div>
       </header>
+
+      {message ? (
+        <div
+          className={`order-notice ${messageIsSuccess ? "order-notice-success" : "order-notice-error"}`}
+          role="status"
+        >
+          {message}
+        </div>
+      ) : null}
 
       <form onSubmit={submitOrder} className="order-form">
         {isTogo && (
@@ -455,13 +467,13 @@ export default function OrderPage() {
               <div className="checkout-amount">${displayTotal.toFixed(2)}</div>
               <div className="checkout-before-tax">Before tax</div>
             </div>
-            <div className="checkout-actions-block">
+            <div className="checkout-dock-trailing">
               {isTogo && (
-                <div className="checkout-togo-bag">
-                  <div className="checkout-togo-bag-text">
+                <div className="checkout-togo-bag checkout-togo-bag-inline">
+                  <span className="checkout-togo-bag-line">
                     <span className="checkout-togo-bag-name">{TOGO_BAG_NAME}</span>
-                    <span className="checkout-togo-bag-price">${TOGO_BAG_PRICE.toFixed(2)} ea</span>
-                  </div>
+                    <span className="checkout-togo-bag-price">${TOGO_BAG_PRICE.toFixed(2)}</span>
+                  </span>
                   <div className="qty-controls qty-controls-compact checkout-togo-bag-qty qty-stepper">
                     {togoBagQty > 0 ? (
                       <>
@@ -509,16 +521,6 @@ export default function OrderPage() {
           </p>
         )}
       </form>
-
-      {message && (
-        <p
-          className={`message ${
-            /thank you|sent to the kitchen|successfully/i.test(message) ? "" : "error"
-          }`}
-        >
-          {message}
-        </p>
-      )}
     </div>
   );
 }

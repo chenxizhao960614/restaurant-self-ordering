@@ -399,6 +399,28 @@ ul {
   padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
+.order-notice {
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.order-notice-success {
+  color: #166534;
+  background: rgba(220, 252, 231, 0.65);
+  border: 1px solid rgba(134, 239, 172, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+.order-notice-error {
+  color: #991b1b;
+  background: rgba(254, 226, 226, 0.75);
+  border: 1px solid rgba(252, 165, 165, 0.9);
+}
+
 .order-header {
   background: linear-gradient(145deg, #0f62fe 0%, #3b82f6 45%, #60a5fa 100%);
   color: #fff;
@@ -881,10 +903,12 @@ ul {
   min-width: 0;
 }
 
-.checkout-actions-block {
+.checkout-dock-trailing {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
   gap: 8px;
   flex-shrink: 0;
   min-width: 0;
@@ -904,6 +928,27 @@ ul {
   align-self: flex-end;
 }
 
+.checkout-togo-bag-inline {
+  width: auto;
+  max-width: none;
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 4px 6px 4px 8px;
+  gap: 6px;
+  align-self: center;
+  border-radius: 8px;
+}
+
+.checkout-togo-bag-line {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
 .checkout-togo-bag-text {
   display: flex;
   flex-direction: column;
@@ -917,8 +962,19 @@ ul {
   color: #0f172a;
 }
 
+.checkout-togo-bag-inline .checkout-togo-bag-name {
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .checkout-togo-bag-price {
   font-size: 12px;
+  color: #64748b;
+}
+
+.checkout-togo-bag-inline .checkout-togo-bag-price {
+  font-size: 11px;
+  font-weight: 600;
   color: #64748b;
 }
 
