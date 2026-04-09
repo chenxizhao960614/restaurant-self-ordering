@@ -28,6 +28,7 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "restaurant_ordering",
   ...(ssl ? { ssl } : {}),
+  connectTimeout: Number(process.env.DB_CONNECT_TIMEOUT_MS || 15000),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

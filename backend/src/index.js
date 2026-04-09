@@ -228,12 +228,18 @@ async function sendOrderNotification(order) {
   }
 }
 
-app.get("/api/health", async (_req, res) => {
+// Liveness: must respond quickly so Render (and similar) health checks do not hang on DB.
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true });
+});
+
+// Readiness: verifies MySQL; use for monitoring or debugging slow/failed DB.
+app.get("/api/health/ready", async (_req, res) => {
   try {
     await pool.query("SELECT 1");
     res.json({ ok: true });
   } catch (error) {
-    res.status(500).json({ ok: false, error: error.message });
+    res.status(503).json({ ok: false, error: error.message });
   }
 });
 
