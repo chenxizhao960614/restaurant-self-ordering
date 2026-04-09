@@ -175,11 +175,20 @@ ul {
     grid-template-columns: 1fr;
   }
 
+  /* Narrow category rail + wide dish column (delivery-app style) */
   .menu-layout-scroll {
-    grid-template-columns: minmax(92px, 34%) 1fr;
-    gap: 10px;
-    padding: 10px 8px;
+    grid-template-columns: minmax(0, min(28vw, 5.75rem)) minmax(0, 1fr);
+    gap: 8px;
+    padding: 8px 6px;
     align-items: start;
+  }
+
+  .menu-shell .menu-layout {
+    padding: 8px 8px 12px;
+  }
+
+  .menu-search-row {
+    padding: 0 10px 10px;
   }
 
   .category-sidebar-scroll {
@@ -190,19 +199,20 @@ ul {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 6px;
+    gap: 4px;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-right: 4px;
+    padding: 6px 4px 6px 6px;
     margin: 0;
-    background: transparent;
+    background: #f3f4f6;
+    border-radius: 10px;
     -webkit-overflow-scrolling: touch;
   }
 
   .category-sidebar.category-sidebar-scroll {
     flex-direction: column;
     border: none;
-    border-radius: 0;
+    border-radius: 10px;
     padding: 0;
     overflow-x: hidden;
     background: transparent;
@@ -212,16 +222,84 @@ ul {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 8px;
     white-space: normal;
-    line-height: 1.25;
-    text-align: left;
-    padding: 8px 10px;
+    line-height: 1.2;
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    color: #64748b;
+  }
+
+  .cat-pill.cat-pill-vertical:active {
+    background: rgba(255, 255, 255, 0.85);
+    color: #1d4ed8;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cat-pill.cat-pill-vertical:hover {
+      background: rgba(255, 255, 255, 0.75);
+      color: #1e40af;
+    }
+  }
+
+  .cat-pill.cat-pill-vertical:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 1px;
   }
 
   .menu-category-list-scroll {
     max-height: min(58vh, 460px);
     overflow-y: auto;
+    min-width: 0;
+    background: #fff;
+    border-radius: 10px;
+    padding-left: 2px;
+  }
+
+  .menu-category-surface {
+    padding: 10px 10px 12px;
+  }
+
+  .dish-name {
+    font-size: 14px;
+  }
+
+  .dish-price {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .menu-layout-scroll {
+    grid-template-columns: minmax(0, min(25vw, 5.125rem)) minmax(0, 1fr);
+    gap: 6px;
+    padding: 6px 4px;
+  }
+
+  .cat-pill.cat-pill-vertical {
+    font-size: 10px;
+    padding: 7px 3px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .menu-layout-scroll {
+    grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .menu-layout-scroll {
+    grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr);
   }
 }
 
@@ -303,7 +381,7 @@ ul {
 }
 
 .order-page {
-  padding-bottom: 120px;
+  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
 }
 
 .order-header {
@@ -498,7 +576,7 @@ ul {
 
 .menu-layout-scroll {
   display: grid;
-  grid-template-columns: minmax(160px, 200px) 1fr;
+  grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr);
   gap: 12px;
   padding: 12px;
   align-items: start;
